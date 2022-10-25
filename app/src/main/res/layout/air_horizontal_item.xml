@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="airData"
+            type="com.lucian.airquality.AirRepository.AirData"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/common_view_width"
+        android:layout_height="@dimen/common_view_height">
+
+        <View
+            android:id="@+id/top_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/secondary_divider_size"
+            android:layout_marginStart ="?android:listPreferredItemPaddingStart"
+            android:layout_marginEnd ="?android:listPreferredItemPaddingEnd"
+            android:layout_marginTop="?android:listPreferredItemPaddingStart"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/air_site_id"/>
+
+        <View
+            android:id="@+id/left_divider"
+            android:layout_width="@dimen/secondary_divider_size"
+            android:layout_height="match_parent"
+            android:layout_marginStart ="?android:listPreferredItemPaddingStart"
+            android:layout_marginTop="?android:listPreferredItemPaddingStart"
+            android:layout_marginBottom="?android:listPreferredItemPaddingEnd"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/air_site_id"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/air_site_id"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@{airData.siteId}"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintTop_toBottomOf="@id/top_divider"
+            app:layout_constraintBottom_toTopOf="@id/air_county"
+            app:layout_constraintStart_toEndOf="@id/left_divider"
+            app:layout_constraintEnd_toStartOf="@id/air_site_name"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/air_site_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@{airData.siteName}"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintTop_toTopOf="@id/air_site_id"
+            app:layout_constraintBottom_toBottomOf="@id/air_site_id"
+            app:layout_constraintStart_toEndOf="@id/air_site_id"
+            app:layout_constraintEnd_toStartOf="@id/air_pm_25"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/air_pm_25"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@{airData.pm25}"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintTop_toTopOf="@id/air_site_id"
+            app:layout_constraintBottom_toBottomOf="@id/air_site_id"
+            app:layout_constraintStart_toEndOf="@id/air_site_name"
+            app:layout_constraintEnd_toStartOf="@id/right_divider"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/air_county"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@{airData.county}"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintTop_toBottomOf="@id/air_site_id"
+            app:layout_constraintBottom_toTopOf="@id/bottom_divider"
+            app:layout_constraintStart_toStartOf="@id/air_site_id"
+            app:layout_constraintEnd_toStartOf="@id/air_status"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/air_status"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@{airData.status}"
+            android:gravity="center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintTop_toTopOf="@id/air_county"
+            app:layout_constraintBottom_toBottomOf="@id/air_county"
+            app:layout_constraintStart_toEndOf="@id/air_county"
+            app:layout_constraintEnd_toEndOf="@id/air_pm_25"/>
+
+        <View
+            android:id="@+id/right_divider"
+            android:layout_width="@dimen/secondary_divider_size"
+            android:layout_height="match_parent"
+            android:layout_marginEnd ="?android:listPreferredItemPaddingEnd"
+            android:layout_marginTop="?android:listPreferredItemPaddingStart"
+            android:layout_marginBottom="?android:listPreferredItemPaddingEnd"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintStart_toEndOf="@id/air_pm_25"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/bottom_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/secondary_divider_size"
+            android:layout_marginStart ="?android:listPreferredItemPaddingStart"
+            android:layout_marginEnd ="?android:listPreferredItemPaddingEnd"
+            android:layout_marginBottom="?android:listPreferredItemPaddingEnd"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/air_county"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity">
+
+    <data>
+        <variable
+            name="airHorizontalAdapter"
+            type="com.lucian.airquality.AirDataHorizontalAdapter"/>
+
+        <variable
+            name="airHorizontalLayoutManager"
+            type="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <variable
+            name="airVerticalAdapter"
+            type="com.lucian.airquality.AirDataVerticalAdapter"/>
+
+        <variable
+            name="airVerticalLayoutManager"
+            type="androidx.recyclerview.widget.LinearLayoutManager"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/back_icon"
+            android:layout_width="@dimen/common_view_size"
+            android:layout_height="@dimen/common_view_size"
+            android:layout_marginStart="?android:listPreferredItemPaddingStart"
+            android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
+            android:background="@drawable/back_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/air_search_editor"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/air_search_editor"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/primary_view_size"
+            android:layout_marginStart="?android:listPreferredItemPaddingStart"
+            android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
+            android:background="@android:color/transparent"
+            android:hint="@string/air_edit_text_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/back_icon"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/search_icon"
+            android:layout_width="@dimen/common_view_size"
+            android:layout_height="@dimen/common_view_size"
+            android:layout_marginStart="?android:listPreferredItemPaddingStart"
+            android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
+            android:background="@drawable/search_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/air_search_editor"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <View
+            android:id="@+id/top_horizontal_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/primary_divider_size"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/air_search_editor"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/air_horizontal_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/top_horizontal_divider"
+            app:adapter="@{airHorizontalAdapter}"
+            app:layoutManager="@{airHorizontalLayoutManager}"/>
+
+        <View
+            android:id="@+id/middle_horizontal_divider"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/primary_divider_size"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/air_horizontal_recycler_view"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/air_vertical_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/middle_horizontal_divider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:adapter="@{airVerticalAdapter}"
+            app:layoutManager="@{airVerticalLayoutManager}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>
