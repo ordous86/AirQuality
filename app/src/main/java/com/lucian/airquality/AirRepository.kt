@@ -1,24 +1,31 @@
 package com.lucian.airquality
 
+import com.google.gson.annotations.SerializedName
+import com.lucian.airquality.WebService.WebDataStruct
+
 /**
  * Repository of air quality.
  */
 class AirRepository {
     // Define data structure for air quality.
     data class AirData(
-        // TODO: Replace mockup data.
-        val county: String = "Taipei",  // mockup
-        val pm25: String = "10",        // mockup
-        val siteId: String = "0",       // mockup
-        val siteName: String = "XinYi", // mockup
-        val status: String = "Good"     // mockup
+        @SerializedName("county")
+        val county: String,
+
+        @SerializedName("pm2.5")
+        val pm25: String,
+
+        @SerializedName("siteid")
+        val siteId: String,
+
+        @SerializedName("sitename")
+        val siteName: String,
+
+        @SerializedName("status")
+        val status: String
     )
 
     // Request online data.
-    fun requestOnlineData() = mutableListOf<AirData>().apply {
-        // TODO: Replace mockup data
-        for (i in 0 until 20) {
-            add(AirData())
-        }
-    }
+    suspend fun requestOnlineData(): WebDataStruct =
+        WebService.api.requestOnlineData()
 }

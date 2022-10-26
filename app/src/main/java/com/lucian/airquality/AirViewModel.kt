@@ -1,5 +1,6 @@
 package com.lucian.airquality
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 /**
@@ -9,6 +10,9 @@ class AirViewModel: ViewModel() {
     // Fields.
     private val repository = AirRepository()
 
+    // Fields for live data.
+    val queryState = MutableLiveData<QueryState>().apply { value = QueryState.IDLE }
+
     // Query online data.
-    fun queryOnline() = repository.requestOnlineData()
+    suspend fun queryOnline() = repository.requestOnlineData()
 }
