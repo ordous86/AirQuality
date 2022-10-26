@@ -1,8 +1,12 @@
 package com.lucian.airquality
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View.OnFocusChangeListener
+import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -37,7 +41,9 @@ class MainActivity: AppCompatActivity() {
             it.airHorizontalLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             it.airVerticalLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             it.airHorizontalAdapter = AirDataHorizontalAdapter(this)
-            it.airVerticalAdapter = AirDataVerticalAdapter(this)
+            it.airVerticalAdapter = AirDataVerticalAdapter(this, viewModel)
+            it.focusChangeListener = OnFocusChangeListener { _, hasFocus -> viewModel.isFocusEditor.value = hasFocus }
+            it.viewModel = viewModel
             it.lifecycleOwner = this
         }
 
@@ -46,6 +52,34 @@ class MainActivity: AppCompatActivity() {
             // TODO: Handler QueryState.ERROR
             if (it == QueryState.IDLE) {
                 queryData()
+            }
+        }
+
+        // observe data change
+        viewModel.keywords.observe(this) {
+            viewBinding.airVerticalAdapter?.filter?.filter(it)
+        }
+
+        // observe data click event
+        viewModel.itemClickFlag.observe(this) {
+            val message = getString(R.string.item_button_click_message,
+                it.siteId,
+                it.siteName,
+                it.county,
+                it.pm25,
+                it.status)
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        }
+
+        // observe editor focus state
+        viewModel.isFocusEditor.observe(this) { isFocus ->
+            getSystemService(Context.INPUT_METHOD_SERVICE).apply {
+                this as InputMethodManager
+                if (isFocus) {
+                    showSoftInput(viewBinding.airSearchEditor, 0)
+                } else {
+                    hideSoftInputFromWindow(viewBinding.airSearchEditor.windowToken, 0)
+                }
             }
         }
     }
@@ -84,7 +118,7 @@ class MainActivity: AppCompatActivity() {
 
                 // submit data to adapter
                 viewBinding.airHorizontalAdapter?.submitList(airGoodData)
-                viewBinding.airVerticalAdapter?.submitList(airBadData)
+                viewBinding.airVerticalAdapter?.submitList(airBadData, totalData)
 
                 // complete
                 Log.d(TAG, "queryData() - Success")

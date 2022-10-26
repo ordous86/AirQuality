@@ -12,8 +12,8 @@ android {
         applicationId "com.lucian.airquality"
         minSdk 29
         targetSdk 33
-        versionCode 20221026
-        versionName "1.1_by_LucianLu"
+        versionCode 20221026_1
+        versionName "1.2_by_LucianLu"
     }
 
     buildTypes {

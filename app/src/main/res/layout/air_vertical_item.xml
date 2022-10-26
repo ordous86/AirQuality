@@ -4,9 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable
             name="airData"
             type="com.lucian.airquality.AirRepository.AirData"/>
+
+        <variable
+            name="viewModel"
+            type="com.lucian.airquality.AirViewModel"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,6 +26,7 @@
             android:layout_height="@dimen/secondary_view_size"
             android:layout_marginStart="?android:listPreferredItemPaddingStart"
             android:text="@{airData.siteId}"
+            android:textSize="@dimen/primary_text_size"
             android:gravity="center"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -31,6 +39,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="?android:listPreferredItemPaddingStart"
             android:text="@{airData.siteName}"
+            android:textSize="@dimen/secondary_text_size"
             android:gravity="center_vertical"
             app:layout_constraintVertical_weight="1"
             app:layout_constraintStart_toEndOf="@id/air_site_id"
@@ -43,6 +52,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="?android:listPreferredItemPaddingStart"
             android:text="@{airData.county}"
+            android:textSize="@dimen/secondary_text_size"
             android:gravity="center_vertical"
             app:layout_constraintVertical_weight="1"
             app:layout_constraintStart_toEndOf="@id/air_site_id"
@@ -66,7 +76,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
-            android:text="@string/air_good_message"
+            android:text="@{`良好`.equals(airData.status) ? @string/air_good_message : airData.status}"
             android:gravity="center_vertical|end"
             android:maxLines="1"
             android:ellipsize="end"
@@ -81,7 +91,9 @@
             android:layout_width="@dimen/common_view_size"
             android:layout_height="@dimen/common_view_size"
             android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
+            android:visibility="@{`良好`.equals(airData.status) ? View.GONE : View.VISIBLE}"
             android:background="@drawable/forward_icon"
+            android:onClick="@{() -> viewModel.onItemButtonClick(airData)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>

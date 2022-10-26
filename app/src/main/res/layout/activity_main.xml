@@ -6,6 +6,10 @@
     tools:context=".MainActivity">
 
     <data>
+        <import type="android.text.TextUtils"/>
+        <import type="android.view.View"/>
+        <import type="com.lucian.airquality.QueryState"/>
+
         <variable
             name="airHorizontalAdapter"
             type="com.lucian.airquality.AirDataHorizontalAdapter"/>
@@ -21,6 +25,15 @@
         <variable
             name="airVerticalLayoutManager"
             type="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        <variable
+            name="focusChangeListener"
+            type="android.view.View.OnFocusChangeListener"/>
+
+        <variable
+            name="viewModel"
+            type="com.lucian.airquality.AirViewModel"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,6 +48,8 @@
             android:layout_marginStart="?android:listPreferredItemPaddingStart"
             android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
             android:background="@drawable/back_icon"
+            android:visibility="@{viewModel.isFocusEditor ? View.VISIBLE : View.GONE}"
+            android:onClick="@{() -> viewModel.setFocusEditor(false)}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/air_search_editor"
             app:layout_constraintStart_toStartOf="parent"/>
@@ -46,10 +61,17 @@
             android:layout_marginStart="?android:listPreferredItemPaddingStart"
             android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
             android:background="@android:color/transparent"
-            android:hint="@string/air_edit_text_title"
+            android:visibility="@{viewModel.queryState == QueryState.SUCCESS ? View.VISIBLE : View.GONE}"
+            android:text="@={viewModel.keywords}"
+            android:textSize="@dimen/primary_text_size"
+            android:maxLines="1"
+            android:maxLength="50"
+            android:inputType="text"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/back_icon"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:focusChangeListener="@{focusChangeListener}"
+            app:isFocused="@{viewModel.isFocusEditor()}"/>
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/search_icon"
@@ -58,6 +80,8 @@
             android:layout_marginStart="?android:listPreferredItemPaddingStart"
             android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
             android:background="@drawable/search_icon"
+            android:visibility="@{viewModel.isShow(viewModel.queryState, viewModel.isFocusEditor) ? View.VISIBLE : View.GONE}"
+            android:onClick="@{() -> viewModel.setFocusEditor(true)}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/air_search_editor"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -67,12 +91,14 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/primary_divider_size"
             android:background="@android:color/darker_gray"
+            android:visibility="@{viewModel.queryState == QueryState.SUCCESS ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@id/air_search_editor"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/air_horizontal_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="@{viewModel.isShow(viewModel.queryState, viewModel.isFocusEditor) ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@id/top_horizontal_divider"
             app:adapter="@{airHorizontalAdapter}"
             app:layoutManager="@{airHorizontalLayoutManager}"/>
@@ -82,18 +108,32 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/primary_divider_size"
             android:background="@android:color/darker_gray"
+            android:visibility="@{viewModel.isShow(viewModel.queryState, viewModel.isFocusEditor) ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@id/air_horizontal_recycler_view"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/air_vertical_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:visibility="@{viewModel.isShow(viewModel.queryState, viewModel.isFocusEditor, viewModel.hasFilteredData) ? View.VISIBLE : View.GONE}"
             app:layout_constraintTop_toBottomOf="@id/middle_horizontal_divider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:adapter="@{airVerticalAdapter}"
             app:layoutManager="@{airVerticalLayoutManager}"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/air_result_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewModel.isShow(viewModel.isFocusEditor, viewModel.hasFilteredData) ? View.VISIBLE : View.GONE}"
+            android:text="@{TextUtils.isEmpty(viewModel.keywords) ? @string/air_search_description : @string/air_search_empty(viewModel.keywords)}"
+            android:textSize="@dimen/primary_text_size"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>
