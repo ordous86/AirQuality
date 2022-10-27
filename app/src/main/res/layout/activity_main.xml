@@ -134,6 +134,29 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/air_query_progress_bar"
+            android:layout_width="@dimen/secondary_view_size"
+            android:layout_height="@dimen/secondary_view_size"
+            android:visibility="@{viewModel.queryState == QueryState.RUNNING ? View.VISIBLE : View.GONE}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            style="?android:progressBarStyleSmall"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/refresh_icon"
+            android:layout_width="@dimen/primary_view_size"
+            android:layout_height="@dimen/primary_view_size"
+            android:visibility="@{viewModel.queryState == QueryState.ERROR ? View.VISIBLE : View.GONE}"
+            android:background="@drawable/refresh_icon"
+            android:onClick="@{() -> viewModel.onRefreshButtonClick()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

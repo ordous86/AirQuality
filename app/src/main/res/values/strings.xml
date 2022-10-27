@@ -2,6 +2,7 @@
     <string name="air_good_message">The status is good, we want to go out to have fun</string>
     <string name="air_search_description">輸入「站名」\n查詢該地區空污資訊</string>
     <string name="air_search_empty">找不到「%s」\n相關的空污資訊</string>
+    <string name="air_search_error">Network error\nPlease try later</string>
     <string name="air_search_hint">請輸入「站名」</string>
     <string name="air_search_title">空氣汙染</string>
     <string name="app_name">AirQuality</string>

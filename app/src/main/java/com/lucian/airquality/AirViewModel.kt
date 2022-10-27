@@ -35,6 +35,11 @@ class AirViewModel: ViewModel() {
         itemClickFlag.value = data
     }
 
+    // Called when click refresh button.
+    fun onRefreshButtonClick() {
+        queryState.value = QueryState.IDLE
+    }
+
     // Query online data.
     suspend fun queryOnline() = repository.requestOnlineData()
 

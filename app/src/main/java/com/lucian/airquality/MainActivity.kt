@@ -49,9 +49,10 @@ class MainActivity: AppCompatActivity() {
 
         // observe query state
         viewModel.queryState.observe(this) {
-            // TODO: Handler QueryState.ERROR
-            if (it == QueryState.IDLE) {
-                queryData()
+            when (it) {
+                QueryState.IDLE -> queryData()
+                QueryState.ERROR -> Toast.makeText(this, R.string.air_search_error, Toast.LENGTH_LONG).show()
+                else -> return@observe
             }
         }
 
